@@ -1,16 +1,13 @@
 package es.santander.ascender.ejerc008.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.hibernate.validator.constraints.Length;
 import org.springframework.data.annotation.Id;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Persona {
@@ -19,12 +16,13 @@ public class Persona {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-     @Length(max = 50)
+    @Length(max = 50)
     private String nombre;
+    private String apellido;
 
-    @OneToMany(orphanRemoval = true, mappedBy = "expediente", cascade = { CascadeType.PERSIST, CascadeType.MERGE,
-            CascadeType.REMOVE })
-    private List<Provincia> provincia = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "provincia_id", nullable = false)
+    private Provincia provincia;
 
     public Long getId() {
         return id;
@@ -42,22 +40,20 @@ public class Persona {
         this.nombre = nombre;
     }
 
-    public int getCodigo_postal() {
-        return codigo_postal;
+    public String getApellido() {
+        return apellido;
     }
 
-    public void setCodigo_postal(int codigo_postal) {
-        this.codigo_postal = codigo_postal;
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
     }
 
-    public List<Provincia> getProvincia() {
+    public Provincia getProvincia() {
         return provincia;
     }
 
-    public void setProvincia(List<Provincia> provincia) {
+    public void setProvincia(Provincia provincia) {
         this.provincia = provincia;
     }
-
-    private int codigo_postal;
 
 }

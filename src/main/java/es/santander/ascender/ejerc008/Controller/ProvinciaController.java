@@ -14,22 +14,25 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import es.santander.ascender.ejerc008.Service.PersonaService;
 import es.santander.ascender.ejerc008.Service.ProvinciaService;
+import es.santander.ascender.ejerc008.model.Persona;
 import es.santander.ascender.ejerc008.model.Provincia;
 
 @RestController
 @RequestMapping("/api/provincias")
 public class ProvinciaController {
 
-     @Autowired
+    @Autowired
     private ProvinciaService provinciaService;
+
+    @Autowired
+    private PersonaService personaService;
 
     // Create
     @PostMapping
     public ResponseEntity<Provincia> createProvincia(@RequestBody Provincia provincia) {
-        provincia.getPersona().forEach(d -> d.setPersona(persona));
-        Provincia createdProvincia= provinciaService.createProvincia(provincia);
-
+        Provincia createdProvincia = provinciaService.createProvincia(provincia);
         return new ResponseEntity<>(createdProvincia, HttpStatus.CREATED);
     }
 
@@ -43,7 +46,7 @@ public class ProvinciaController {
     // Read (by ID)
     @GetMapping("/{id}")
     public ResponseEntity<Provincia> getProvinciaById(@PathVariable Long id) {
-        Optional<Provincia> provincia = provinciaService.getExpedienteById(id);
+        Optional<Provincia> provincia = provinciaService.getProvinciaById(id);
         if (provincia.isPresent()) {
             return new ResponseEntity<>(provincia.get(), HttpStatus.OK);
         } else {
@@ -53,8 +56,7 @@ public class ProvinciaController {
 
     // Update
     @PutMapping("/{id}")
-    public ResponseEntity<Provincia> updateProvincia(@PathVariable Long id, @RequestBody Provincia expedienteDetails) {
-               
+    public ResponseEntity<Provincia> updateProvincia(@PathVariable Long id, @RequestBody Provincia provinciaDetails) {
         Provincia updatedProvincia = provinciaService.updateProvincia(id, provinciaDetails);
         if (updatedProvincia != null) {
             return new ResponseEntity<>(updatedProvincia, HttpStatus.OK);
@@ -63,5 +65,10 @@ public class ProvinciaController {
         }
     }
 
-    
+    // Obtener personas de una provincia específica
+    @GetMapping("/{id}/personas")
+    public ResponseEntity<List<Persona>> getPersonasByProvincia(@PathVariable Long id) {
+        List<Persona> personas = personaService.getPersonasByProvincia(id);
+        return new ResponseEntity<>(personas, HttpStatus.OK);
+    }
 }
