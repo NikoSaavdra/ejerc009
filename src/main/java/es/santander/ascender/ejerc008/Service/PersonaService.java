@@ -40,8 +40,7 @@ public class PersonaService {
         if (personaOptional.isPresent()) {
             Persona persona = personaOptional.get();
             persona.setNombre(personaDetails.getNombre());
-            persona.setApellidos(personaDetails.getApellido());
-            persona.setProvincia(personaDetails.getProvincia());
+            persona.setApellidos(personaDetails.getApellidos());
             return personaRepository.save(persona);
         }
         return null;

@@ -1,9 +1,6 @@
 package es.santander.ascender.ejerc008.model;
 
-import java.util.Objects;
-
 import org.hibernate.validator.constraints.Length;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,6 +15,14 @@ public class Provincia {
 
     @Length(max = 50)
     private String nombre;
+
+    public Provincia() {
+    }
+
+    public Provincia(Long id, @Length(max = 50) String nombre) {
+        this.id = id;
+        this.nombre = nombre;
+    }
 
     public Long getId() {
         return id;
@@ -37,28 +42,27 @@ public class Provincia {
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 71 * hash + Objects.hashCode(this.id);
-        hash = 71 * hash + Objects.hashCode(this.nombre);
-        return hash;
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        return result;
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
+        if (this == obj)
             return true;
-        }
-        if (obj == null) {
+        if (obj == null)
             return false;
-        }
-        if (getClass() != obj.getClass()) {
+        if (getClass() != obj.getClass())
             return false;
-        }
-        final Provincia other = (Provincia) obj;
-        if (!Objects.equals(this.nombre, other.nombre)) {
+        Provincia other = (Provincia) obj;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
             return false;
-        }
-        return Objects.equals(this.id, other.id);
+        return true;
     }
 
 }

@@ -40,4 +40,11 @@ public class ProvinciaService {
         }
         return null;
     }
+
+    public Optional<Provincia> getProvinciaByName(String nombre) {
+        // Aquí realizas la lógica para buscar la provincia por su nombre
+        return provinciaRepository.findByNombre(nombre);
+    }
+    
+    
 }

@@ -32,12 +32,11 @@ public class PersonaController {
 
     @PostMapping
     public ResponseEntity<Persona> createPersona(@RequestBody Persona persona) {
-        if (persona.getProvincia() == null || persona.getProvincia().getId() == 0) {
+        if (persona.getProvincia() == null || persona.getProvincia().getNombre() == null || persona.getProvincia().getNombre().isEmpty()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        Optional<Provincia> provinciaOpt = provinciaService.getProvinciaById(persona.getProvincia().getId());
-
+        Optional<Provincia> provinciaOpt =  provinciaService.getProvinciaByName(persona.getProvincia().getNombre());
         if (!provinciaOpt.isPresent()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

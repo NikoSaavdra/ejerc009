@@ -1,9 +1,6 @@
 package es.santander.ascender.ejerc008.model;
 
-import java.util.Objects;
-
 import org.hibernate.validator.constraints.Length;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,6 +20,16 @@ public class Persona {
 
     @Length(max = 60)
     private String apellidos;
+
+    public Persona() {
+    }
+
+    public Persona(Long id, @Length(max = 50) String nombre, @Length(max = 60) String apellidos, Provincia provincia) {
+        this.id = id;
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.provincia = provincia;
+    }
 
     @ManyToOne
     @JoinColumn(name = "provincia_id", nullable = false)
@@ -44,7 +51,7 @@ public class Persona {
         this.nombre = nombre;
     }
 
-    public String getApellido() {
+    public String getApellidos() {
         return apellidos;
     }
 
@@ -62,36 +69,26 @@ public class Persona {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 53 * hash + Objects.hashCode(this.id);
-        hash = 53 * hash + Objects.hashCode(this.nombre);
-        hash = 53 * hash + Objects.hashCode(this.apellidos);
-        hash = 53 * hash + Objects.hashCode(this.provincia);
-        return hash;
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        return result;
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
+        if (this == obj)
             return true;
-        }
-        if (obj == null) {
+        if (obj == null)
             return false;
-        }
-        if (getClass() != obj.getClass()) {
+        if (getClass() != obj.getClass())
             return false;
-        }
-        final Persona other = (Persona) obj;
-        if (!Objects.equals(this.nombre, other.nombre)) {
+        Persona other = (Persona) obj;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
             return false;
-        }
-        if (!Objects.equals(this.apellidos, other.apellidos)) {
-            return false;
-        }
-        if (!Objects.equals(this.id, other.id)) {
-            return false;
-        }
-        return Objects.equals(this.provincia, other.provincia);
+        return true;
     }
-
 }
