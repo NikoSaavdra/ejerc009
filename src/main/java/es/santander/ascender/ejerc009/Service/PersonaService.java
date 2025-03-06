@@ -1,4 +1,4 @@
-package es.santander.ascender.ejerc008.Service;
+package es.santander.ascender.ejerc009.Service;
 
 import java.util.List;
 import java.util.Optional;
@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import es.santander.ascender.ejerc008.Repository.PersonaRepository;
-import es.santander.ascender.ejerc008.model.Persona;
+import es.santander.ascender.ejerc009.Repository.PersonaRepository;
+import es.santander.ascender.ejerc009.model.Persona;
 
 @Service
 @Transactional
@@ -29,10 +29,6 @@ public class PersonaService {
     @Transactional(readOnly = true)
     public Optional<Persona> getPersonaById(Long id) {
         return personaRepository.findById(id);
-    }
-
-    public List<Persona> getPersonasByProvincia(Long provinciaId) {
-        return personaRepository.findByProvinciaId(provinciaId);
     }
 
     public Persona updatePersona(Long id, Persona personaDetails) {

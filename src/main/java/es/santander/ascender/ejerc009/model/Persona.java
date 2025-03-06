@@ -1,13 +1,16 @@
-package es.santander.ascender.ejerc008.model;
+package es.santander.ascender.ejerc009.model;
 
 import org.hibernate.validator.constraints.Length;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 
 @Entity
-public class Provincia {
+public class Persona {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -16,13 +19,22 @@ public class Provincia {
     @Length(max = 50)
     private String nombre;
 
-    public Provincia() {
+    @Length(max = 60)
+    private String apellidos;
+
+    public Persona() {
     }
 
-    public Provincia(Long id, @Length(max = 50) String nombre) {
+    public Persona(Long id, @Length(max = 50) String nombre, @Length(max = 60) String apellidos, Usuario usuario) {
         this.id = id;
         this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.usuario = usuario;
     }
+
+    @OneToOne
+    @JoinColumn(name = "usuario_id", nullable = false)
+    private Usuario usuario;
 
     public Long getId() {
         return id;
@@ -40,6 +52,22 @@ public class Provincia {
         this.nombre = nombre;
     }
 
+    public String getApellidos() {
+        return apellidos;
+    }
+
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario provincia) {
+        this.usuario = provincia;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -50,19 +78,23 @@ public class Provincia {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
-        Provincia other = (Provincia) obj;
+        }
+        Persona other = (Persona) obj;
         if (id == null) {
-            if (other.id != null)
+            if (other.id != null) {
                 return false;
-        } else if (!id.equals(other.id))
+            }
+        } else if (!id.equals(other.id)) {
             return false;
+        }
         return true;
     }
-
 }

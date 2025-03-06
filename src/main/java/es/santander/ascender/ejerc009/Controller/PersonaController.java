@@ -1,4 +1,4 @@
-package es.santander.ascender.ejerc008.Controller;
+package es.santander.ascender.ejerc009.Controller;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,33 +15,20 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import es.santander.ascender.ejerc008.Service.PersonaService;
-import es.santander.ascender.ejerc008.Service.ProvinciaService;
-import es.santander.ascender.ejerc008.model.Persona;
-import es.santander.ascender.ejerc008.model.Provincia;
+import es.santander.ascender.ejerc009.Service.PersonaService;
+import es.santander.ascender.ejerc009.model.Persona;
+import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/personas")
+@RequestMapping("/api/persona")
 public class PersonaController {
 
     @Autowired
     private PersonaService personaService;
 
-    @Autowired
-    private ProvinciaService provinciaService;
-
+    // Create
     @PostMapping
-    public ResponseEntity<Persona> createPersona(@RequestBody Persona persona) {
-        if (persona.getProvincia() == null || persona.getProvincia().getNombre() == null || persona.getProvincia().getNombre().isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
-        Optional<Provincia> provinciaOpt =  provinciaService.getProvinciaByName(persona.getProvincia().getNombre());
-        if (!provinciaOpt.isPresent()) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
-        persona.setProvincia(provinciaOpt.get());
+    public ResponseEntity<Persona> createPersona(@Valid @RequestBody Persona persona) {
         Persona createdPersona = personaService.createPersona(persona);
         return new ResponseEntity<>(createdPersona, HttpStatus.CREATED);
     }

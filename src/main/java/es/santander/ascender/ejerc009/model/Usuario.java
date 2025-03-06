@@ -1,15 +1,14 @@
-package es.santander.ascender.ejerc008.model;
+package es.santander.ascender.ejerc009.model;
 
 import org.hibernate.validator.constraints.Length;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 
 @Entity
-public class Persona {
+public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,22 +17,15 @@ public class Persona {
     @Length(max = 50)
     private String nombre;
 
-    @Length(max = 60)
-    private String apellidos;
+    private String contraseña;
 
-    public Persona() {
+    public Usuario() {
     }
 
-    public Persona(Long id, @Length(max = 50) String nombre, @Length(max = 60) String apellidos, Provincia provincia) {
+    public Usuario(Long id, @Length(max = 50) String nombre) {
         this.id = id;
         this.nombre = nombre;
-        this.apellidos = apellidos;
-        this.provincia = provincia;
     }
-
-    @ManyToOne
-    @JoinColumn(name = "provincia_id", nullable = false)
-    private Provincia provincia;
 
     public Long getId() {
         return id;
@@ -51,20 +43,12 @@ public class Persona {
         this.nombre = nombre;
     }
 
-    public String getApellidos() {
-        return apellidos;
+    public String getContraseña() {
+        return contraseña;
     }
 
-    public void setApellidos(String apellidos) {
-        this.apellidos = apellidos;
-    }
-
-    public Provincia getProvincia() {
-        return provincia;
-    }
-
-    public void setProvincia(Provincia provincia) {
-        this.provincia = provincia;
+    public void setContraseña(String contraseña) {
+        this.contraseña = contraseña;
     }
 
     @Override
@@ -77,18 +61,24 @@ public class Persona {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
-        Persona other = (Persona) obj;
+        }
+        Usuario other = (Usuario) obj;
         if (id == null) {
-            if (other.id != null)
+            if (other.id != null) {
                 return false;
-        } else if (!id.equals(other.id))
+            }
+        } else if (!id.equals(other.id)) {
             return false;
+        }
         return true;
     }
+
 }
