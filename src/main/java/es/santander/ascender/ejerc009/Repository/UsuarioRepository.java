@@ -1,4 +1,4 @@
-package es.santander.ascender.ejerc009.Repository;
+package es.santander.ascender.ejerc009.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

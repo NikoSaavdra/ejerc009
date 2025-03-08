@@ -1,13 +1,14 @@
 package es.santander.ascender.ejerc009.model;
 
+import java.time.LocalDate;
+
 import org.hibernate.validator.constraints.Length;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
 
 @Entity
 public class Persona {
@@ -22,19 +23,20 @@ public class Persona {
     @Length(max = 60)
     private String apellidos;
 
+    @Column(name = "fecha_nacimiento")
+    private LocalDate fechaNacimiento;
+    private String telefono;
+
     public Persona() {
     }
 
-    public Persona(Long id, @Length(max = 50) String nombre, @Length(max = 60) String apellidos, Usuario usuario) {
+    public Persona(String apellidos, LocalDate fechaNacimiento, Long id, String nombre, String telefono) {
+        this.apellidos = apellidos;
+        this.fechaNacimiento = fechaNacimiento;
         this.id = id;
         this.nombre = nombre;
-        this.apellidos = apellidos;
-        this.usuario = usuario;
+        this.telefono = telefono;
     }
-
-    @OneToOne
-    @JoinColumn(name = "usuario_id", nullable = false)
-    private Usuario usuario;
 
     public Long getId() {
         return id;
@@ -60,12 +62,20 @@ public class Persona {
         this.apellidos = apellidos;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public LocalDate getFechaNacimiento() {
+        return fechaNacimiento;
     }
 
-    public void setUsuario(Usuario provincia) {
-        this.usuario = provincia;
+    public void setFechaNacimiento(LocalDate fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
     }
 
     @Override
@@ -97,4 +107,5 @@ public class Persona {
         }
         return true;
     }
+
 }

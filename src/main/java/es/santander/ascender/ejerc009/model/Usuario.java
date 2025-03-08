@@ -2,10 +2,15 @@ package es.santander.ascender.ejerc009.model;
 
 import org.hibernate.validator.constraints.Length;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import jakarta.validation.constraints.Pattern;
 
 @Entity
 public class Usuario {
@@ -15,16 +20,27 @@ public class Usuario {
     private Long id;
 
     @Length(max = 50)
+    @Column(name = "nombre_usuario")
     private String nombre;
-
+    @Pattern(regexp = "^[A-Za-z0-9+_.-]+@(.+)$", message = "Correo electrónico no válido")
+    private String email;
     private String contraseña;
+    private boolean estado = true; // Activo - Inactivo
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "persona_id", referencedColumnName = "id", unique = true)
+    private Persona persona;
 
     public Usuario() {
     }
 
-    public Usuario(Long id, @Length(max = 50) String nombre) {
+    public Usuario(String contraseña, String email, boolean estado, Long id, String nombre, Persona persona) {
+        this.contraseña = contraseña;
+        this.email = email;
+        this.estado = estado = true; // Por defecto, el usuario está activo
         this.id = id;
         this.nombre = nombre;
+        this.persona = persona;
     }
 
     public Long getId() {
@@ -49,6 +65,26 @@ public class Usuario {
 
     public void setContraseña(String contraseña) {
         this.contraseña = contraseña;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public boolean getEstado() {
+        return estado;
+    }
+
+    public Persona getPersona() {
+        return persona;
+    }
+
+    public void setPersona(Persona persona) {
+        this.persona = persona;
     }
 
     @Override
