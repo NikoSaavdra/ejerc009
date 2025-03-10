@@ -1,5 +1,6 @@
 package es.santander.ascender.ejerc009.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ch.qos.logback.classic.Logger;
 import es.santander.ascender.ejerc009.model.Persona;
 import es.santander.ascender.ejerc009.repository.PersonaRepository;
 
@@ -14,10 +16,13 @@ import es.santander.ascender.ejerc009.repository.PersonaRepository;
 @Transactional
 public class PersonaService {
 
+    private static final Logger logger = (Logger) org.slf4j.LoggerFactory.getLogger(PersonaService.class);
+
     @Autowired
     private PersonaRepository personaRepository;
 
     public Persona createPersona(Persona persona) {
+        logger.info(String.format("La fecha actual: %s", LocalDateTime.now()));
         return personaRepository.save(persona);
     }
 
